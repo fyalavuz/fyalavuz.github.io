@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support</title>
+<style>
+  :root { --primary:#2563eb; --bg:#eef2f9; --card:#fff; --text:#0f172a; --muted:#64748b; --border:#e2e8f0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+  .wrap { max-width:720px; margin:0 auto; padding:32px 20px 64px; }
+  header { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+  .logo { width:44px; height:44px; border-radius:10px; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; }
+  h1 { font-size:28px; margin:0; }
+  .tag { color:var(--muted); margin:0 0 28px; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; }
+  h2 { font-size:19px; margin:0 0 12px; }
+  details { border-bottom:1px solid var(--border); padding:10px 0; }
+  details:last-child { border-bottom:none; }
+  summary { font-weight:600; cursor:pointer; }
+  details p { color:var(--muted); margin:8px 0 0; }
+  label { display:block; font-weight:600; font-size:14px; margin:14px 0 4px; }
+  input, textarea { width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font:inherit; background:#f8fafc; }
+  textarea { min-height:120px; resize:vertical; }
+  button { margin-top:16px; background:var(--primary); color:#fff; border:none; border-radius:8px; padding:12px 22px; font:inherit; font-weight:700; cursor:pointer; }
+  button:hover { opacity:.92; }
+  .ok { display:none; margin-top:14px; padding:12px; border-radius:8px; background:#ecfdf5; color:#065f46; font-weight:600; }
+  .alt { color:var(--muted); font-size:14px; margin-top:14px; }
+  a { color:var(--primary); }
+  footer { color:var(--muted); font-size:13px; margin-top:28px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo" id="emoji">📱</div>
+    <h1 id="title">Support</h1>
+  </header>
+  <p class="tag" id="tagline"></p>
+
+  <div class="card">
+    <h2>Frequently asked questions</h2>
+    <div id="faq"></div>
+  </div>
+
+  <div class="card">
+    <h2>Contact us</h2>
+    <p style="color:var(--muted); margin-top:0">Question, bug report, or feature idea? Send a message — we typically reply within 2 business days.</p>
+    <form id="f" action="https://formsubmit.co/ajax/yalavuz@gmail.com" method="POST">
+      <input type="hidden" name="_subject" id="subj" value="App support request">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="app" id="appfield" value="">
+      <label for="name">Name</label>
+      <input id="name" name="name" required autocomplete="name">
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" required autocomplete="email">
+      <label for="msg">Message</label>
+      <textarea id="msg" name="message" required></textarea>
+      <button type="submit">Send message</button>
+      <div class="ok" id="ok">✅ Your message has been sent. We'll get back to you by email.</div>
+    </form>
+    <p class="alt">Prefer email? Write to us directly at <a id="mailto" href="mailto:yalavuz@gmail.com">yalavuz@gmail.com</a>.</p>
+    <p class="alt">Submitting this form sends your name, email address and message through FormSubmit to our support mailbox. FormSubmit states that it retains submissions for up to 30 days. See <a href="https://formsubmit.co/privacy.pdf">FormSubmit's privacy terms</a>.</p>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const COMMON_FAQ = [
+  ["Is my personal data collected?", "No. This app does not collect, store, or share personal data. See the privacy policy linked below for details."],
+  ["Something is not working — what should I try first?", "Force-quit the app and reopen it, then restart the device. If the problem persists, use the contact form below and describe what you tapped and what happened — a screenshot or photo helps a lot."],
+];
+
+const APPS = {
+  tuner: {
+    name: "Tuner", emoji: "🎚️", privacy: "tuner-en.html",
+    privacySummary: "Microphone audio is analysed only on the device and is never recorded or transmitted. Tuner has no account, ads, analytics, or tracking.",
+    dataFaq: ["How does Tuner handle audio and data?", "Tuner analyses microphone audio in real time on your device to estimate pitch. Audio is never recorded, saved, or transmitted. Preferences and tuning history remain local. The app has no account, ads, analytics, tracking, or third-party SDKs. Read the privacy policy for details."],
+    tagline: "Tune guitar, bağlama, oud, violin-family instruments, and more on iPhone and iPad.",
+    faq: [
+      ["Tuner cannot hear my instrument.", "Open iOS Settings → Privacy & Security → Microphone and make sure Tuner is enabled. Return to the tuner screen and tap Retry. Play one sustained note close to the microphone."],
+      ["Why does the reading move around?", "Play one string or note at a time, mute nearby speakers, and let the note sustain. Strong background sound or several notes at once can make any pitch detector less stable."],
+      ["Which mode should I choose?", "Choose your instrument when you want string-specific targets. Choose Chromatic when you want Tuner to identify the nearest note without restricting the target to one instrument."],
+      ["Why did microphone analysis pause?", "The reference tone and other audio tools temporarily take control of the audio session. Returning to the tuner restarts microphone analysis automatically."],
+      ["Where are my settings and history stored?", "They stay in local Apple system storage on this device. Tuner does not send them to a developer server. You can clear tuning history inside the app."],
+    ],
+  },
+  "single-stock": {
+    name: "Single Stock", emoji: "📈", privacy: "single-stock.html",
+    privacySummary: "Single Stock uses Apple storage and a market-data provider for quotes. It has no account, advertising, analytics, or tracking code.",
+    dataFaq: ["How does Single Stock handle data?", "Single Stock stores your selected symbol and preferences on the device. iCloud can sync the symbol and preview usage, and an App Group holds the widget quote cache. The market-data provider receives search and quote requests. Apple handles subscriptions. The app creates no account and uses no advertising, analytics, or tracking code. Read the privacy policy for details."],
+    tagline: "Follow one stock full screen with delayed market quotes on iPhone, iPad, Apple TV, and Apple widgets.",
+    faq: [
+      ["Are the quotes real time?", "The market-data provider can delay quotes by about 15 minutes. Service or data problems can leave a quote unavailable, incomplete, or stale. Single Stock provides an informational display and no investment advice."],
+      ["Which features need an internet connection?", "Stock search, quote refreshes, StoreKit product details, purchases, and purchase restoration need internet access. A widget may show its labeled cached quote if a fresh request fails. Single Stock requires no app account."],
+      ["How does my selected stock sync?", "iCloud Key-Value Store syncs your selected symbol between iPhone, iPad, and Apple TV when available. Each device uses local storage if it cannot access iCloud. On iPhone and iPad, an Apple App Group shares the symbol and a compact quote cache with the widget."],
+      ["What is the daily preview?", "A non-subscriber can use up to five minutes of full-app preview access per UTC day. Opening the preview does not start an App Store trial, purchase, or renewal. iCloud can sync usage across devices."],
+      ["How do I change the tracked stock?", "Open Settings and choose Track a different stock. This clears the current selection and widget quote cache, returns you to the stock picker, and syncs the removal through iCloud when available."],
+      ["How do I restore, manage, or cancel Single Stock Pro?", "Use Restore Purchases in Single Stock Settings to refresh access. To manage or cancel the auto-renewable subscription, open your App Store account subscription settings. Apple handles billing and subscription records."],
+      ["How can I contact support?", "Email yalavuz@gmail.com with the subject “Single Stock support.” Include your device type, OS version, the stock symbol involved, and what happened. Keep brokerage credentials and financial account details out of the message."],
+    ],
+  },
+  blackjack: {
+    name: "Blackjack 21", emoji: "♠️", privacy: "blackjack-en.html",
+    privacySummary: "Gameplay stays local; Apple handles purchases, and optional iPhone/iPad rewarded ads use Google under your privacy choices.",
+    dataFaq: ["How does Blackjack 21 handle data?", "Your balance, progress, statistics and settings stay in the app container on your device. Apple handles optional purchases. On iPhone and iPad, Google may process ad and device data when checking privacy choices or serving an optional rewarded ad. See the privacy policy for details."],
+    tagline: "A focused solo blackjack table for iPhone, iPad, Apple TV, Mac and Apple Vision Pro.",
+    faq: [
+      ["Is this real-money gambling?", "No. Blackjack 21 is a simulated card game for entertainment. Virtual chips have no cash value and cannot be withdrawn, redeemed or transferred."],
+      ["Do I need an internet connection?", "Core gameplay works offline. An internet connection is needed to load or restore StoreKit purchases and, on iPhone or iPad, to load an optional rewarded ad."],
+      ["Do I have to watch ads to play?", "No. Rewarded ads are optional and only available on iPhone and iPad. The daily House Stake and normal gameplay never require an ad."],
+      ["Where is my progress stored?", "Balance, statistics, progress, rules and appearance settings are stored in the app container on this device. Deleting the app removes its current local container, subject to Apple backup and restore behavior; purchased non-consumables can be restored through Apple."],
+      ["How do I restore a purchase?", "Open Settings in Blackjack 21 and choose Restore Purchases. Make sure the device is signed in to the same Apple Account used for the purchase."],
+      ["How do I change ad privacy choices?", "Where a privacy-options entry point is required, open Settings in Blackjack 21 and choose Privacy Options. Changing a choice applies before the next ad request."],
+    ],
+  },
+  lava: {
+    name: "Lava", emoji: "🔥", privacy: "lava-en",
+    tagline: "A lava lamp for iPhone, iPad, Apple TV, Apple Watch, Mac and Apple Vision Pro.",
+    faq: [
+      ["How do I change the look?", "Open Settings inside the app and pick one of the themes (Magma, Ocean, Neon, Sunset). Each theme changes the blob and background colours."],
+      ["What do the Heat, Light and Drops controls do?", "Heat sets how fast the lava flows, Light adjusts the glow, and Drops sets how many blobs float in the lamp. All three are sliders you can adjust live."],
+      ["Does the screen stay on while Lava is open?", "Yes. Lava keeps the screen awake while the app is in the foreground so it works as an ambient display, and lets the screen sleep normally again when you leave."],
+      ["Which devices are supported?", "Lava runs on iPhone, iPad, Apple TV, Apple Watch, Mac and Apple Vision Pro. On Apple Watch the number of blobs is reduced automatically for smooth animation."],
+      ["Are my settings saved?", "Yes — your theme, heat, light and drop count are stored locally on the device and restored the next time you open the app. Deleting the app clears them."],
+    ],
+  },
+  lingoffline: {
+    name: "Lang Offline", emoji: "💬", privacy: "lingoffline-en",
+    tagline: "408 essential travel phrases across 49 languages, ready offline on iPhone and iPad.",
+    faq: [
+      ["Does the phrasebook really work offline?", "Yes. All 49 languages and all 408 phrases are bundled in the app. Listening uses a compatible iOS system voice when one is available; downloading an optional voice may require an internet connection."],
+      ["How do I change my languages?", "Tap the language pair near the top of Explore or Saved, or open the language picker from the main screen. Choose the language you speak and the language you need, then swap the pair whenever you need."],
+      ["Why is Speak unavailable for a language?", "Pronunciation depends on compatible voices provided by iOS and is not available for every language. The phrase remains available to read, copy, save, and show full screen."],
+      ["How do I copy or show a phrase?", "Open a phrase and tap Copy to place the target-language text on the clipboard. Use the full-screen display when you want to show the phrase to someone nearby."],
+      ["How do I save a phrase?", "Tap the bookmark beside a phrase. It appears in Saved and remains on this device until you remove it or delete the app."],
+      ["What happened to İngilizce Rehberi?", "İngilizce Rehberi is now Lang Offline. Turkish and English remain available, along with 47 other languages that can be paired in either direction."],
+    ],
+  },
+  audiopill: {
+    name: "Test Your Speakers", emoji: "🔊", privacy: "audiopill-en",
+    privacySummary: "Speaker reports stay local; Apple handles the one-time Pro purchase. No ads, analytics, or tracking.",
+    tagline: "Check every home theater speaker and channel from your listening seat on Apple TV.",
+    faq: [
+      ["A speaker test plays no sound on one channel.", "First check that channel with another surround source. Then confirm Apple TV is sending audio to the intended receiver or soundbar. Test Your Speakers only offers layouts and channels the current output route reports that it can address."],
+      ["Does the app measure or calibrate my room automatically?", "No. Test Your Speakers generates reference signals and records what you confirm by ear. It does not use a microphone, measure sound-pressure level, or replace a calibrated room-measurement system."],
+      ["What is included for free?", "The first complete guided speaker check and its report are free. Channel ID, Tone, Noise, and Bass Sweep also stay free. Test Your Speakers Pro is one optional, non-consumable purchase for unlimited checks, report history, targeted rechecks, Full Sweep, and Phase."],
+      ["How do I restore Test Your Speakers Pro?", "Open Settings in the app and choose Restore Purchases while signed in to the Apple Account used for the purchase. Eligible customers of the earlier paid app keep Pro after Apple's verified purchase record is checked."],
+    ],
+  },
+  "live-shader": {
+    name: "Live Shader", emoji: "🎨", privacy: "live-shader-en",
+    tagline: "Live animated shader visuals for Apple TV.",
+    faq: [
+      ["Animation is stuttering.", "Close other apps running in the background and restart the Apple TV. Older Apple TV models render heavy shaders at a lower frame rate."],
+    ],
+  },
+  "sudoku-tvos": {
+    name: "Sudoku for Apple TV", emoji: "🔢", privacy: "sudoku-tvos-en",
+    tagline: "Sudoku designed for the big screen, with profiles, statistics and daily streaks.",
+    faq: [
+      ["Where is my progress stored?", "All game progress, statistics, streaks and profiles are stored locally on your Apple TV. They never leave the device — which also means deleting the app deletes your progress."],
+    ],
+  },
+  netpital: {
+    name: "Netpital", emoji: "🏥", privacy: "netpital.en",
+    tagline: "Netpital mobile app.",
+    faq: [],
+  },
+  "public-ip-tv": {
+    name: "Public IP TV", emoji: "📺", privacy: "public-ip-tv-en",
+    tagline: "Publicly available IPTV streams on your Apple TV.",
+    faq: [
+      ["A channel does not play or keeps buffering.", "The app plays publicly available streams; broadcasters change or drop them over time, and availability can differ by country. Try the channel again later, and check that other channels play — if everything buffers, test your internet connection speed."],
+    ],
+  },
+  sneyk: {
+    name: "Sneyk", emoji: "🐍", privacy: "sneyk-en",
+    tagline: "Offline snake game for Apple TV.",
+    faq: [
+      ["Does it need internet?", "No — Sneyk is fully offline. Scores are kept locally on your Apple TV."],
+    ],
+  },
+  "test-your-tv": {
+    name: "Test Your TV", emoji: "🖥️", privacy: "test-your-tv-en",
+    tagline: "Screen and picture test patterns for your TV, on Apple TV.",
+    faq: [
+      ["What do I use the test patterns for?", "Use the patterns to spot dead pixels, check uniformity, and tune brightness, contrast and color on your TV's own picture settings while the pattern is on screen."],
+    ],
+  },
+  winiso2usb: {
+    name: "WinISO2USB", emoji: "💾", privacy: "WinISO2USB-en",
+    tagline: "Write bootable Windows ISO images to USB drives on macOS.",
+    faq: [
+      ["My USB drive is not listed.", "Unplug and replug the drive, avoid USB hubs, and make sure macOS sees it in Disk Utility first. Drives smaller than the ISO size are not shown."],
+      ["The USB does not boot on the PC.", "Enter the PC's boot menu (often F12/F11/Esc at power-on) and pick the USB explicitly. For older PCs, check whether the machine boots in UEFI or Legacy/BIOS mode and match it in your firmware settings."],
+    ],
+  },
+  "og-preview-lab": {
+    name: "OG Preview Lab", emoji: "🔍", privacy: "og-preview-lab-chrome-extension",
+    tagline: "Chrome extension for previewing Open Graph and Twitter card metadata.",
+    faq: [
+      ["The preview does not load for a page.", "Some pages block metadata fetching or render tags with JavaScript only. Try the public URL of the page (not a local/authenticated one) and reload the tab before opening the extension."],
+    ],
+  },
+};
+
+const slug = new URLSearchParams(location.search).get("app") || "";
+const app = APPS[slug] || { name: "Our Apps", emoji: "📱", privacy: "", tagline: "Support for apps by Fırat Yalavuz.", faq: [] };
+
+document.title = app.name + " — Support";
+document.getElementById("emoji").textContent = app.emoji;
+document.getElementById("title").textContent = app.name + " Support";
+document.getElementById("tagline").textContent = app.tagline;
+document.getElementById("subj").value = app.name + " support request";
+document.getElementById("appfield").value = app.name;
+document.getElementById("mailto").href = "mailto:yalavuz@gmail.com?subject=" + encodeURIComponent(app.name + " support");
+
+const faqEl = document.getElementById("faq");
+const dataFaq = app.dataFaq || COMMON_FAQ[0];
+for (const [q, a] of [...app.faq, dataFaq, COMMON_FAQ[1]]) {
+  const d = document.createElement("details");
+  const s = document.createElement("summary");
+  s.textContent = q;
+  const p = document.createElement("p");
+  p.textContent = a;
+  d.append(s, p);
+  faqEl.append(d);
+}
+
+const foot = document.getElementById("foot");
+if (app.privacy) {
+  const a = document.createElement("a");
+  a.href = "/privacy-policy/" + app.privacy;
+  a.textContent = "Privacy Policy";
+  const privacySummary = app.privacySummary || (app.name + " never collects personal data — everything stays on your device.");
+  foot.append(a, document.createTextNode(" · " + privacySummary));
+} else {
+  foot.textContent = "Apps by Fırat Yalavuz.";
+}
+
+document.getElementById("f").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const f = e.target, btn = f.querySelector("button");
+  btn.disabled = true; btn.textContent = "Sending…";
+  try {
+    const r = await fetch(f.action, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(f) });
+    if (!r.ok) throw new Error();
+    f.reset();
+    document.getElementById("ok").style.display = "block";
+    btn.textContent = "Sent";
+  } catch {
+    location.href = document.getElementById("mailto").href + "&body=" + encodeURIComponent(f.message.value);
+    btn.disabled = false; btn.textContent = "Send message";
+  }
+});
+</script>
+</body>
+</html>
