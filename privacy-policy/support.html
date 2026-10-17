@@ -114,6 +114,21 @@ const APPS = {
       ["Which printers work?", "Any AirPrint printer. You can also export a PDF or a 300 dpi JPEG and print it from another device or a print shop; the file keeps the exact physical size."],
     ],
   },
+  diskcity: {
+    name: "Disk City", emoji: "🏙️", privacy: "diskcity-en.html",
+    privacySummary: "No account, ads, analytics, or tracking. The Mac App Store version has no network access, and scan results stay in memory on your Mac.",
+    dataFaq: ["How does Disk City handle my files and data?", "Disk City reads only the names, sizes, and locations of files in the folders you choose. It never opens file contents. Scan results stay in memory on your Mac and are discarded when you quit. The app keeps a list of the folders you granted access to inside its own container. It has no account, ads, analytics, tracking, or third-party SDKs, and the Mac App Store version has no network access. Read the privacy policy for details."],
+    tagline: "See your disk as a 3D city on Mac, find what takes up space, and reclaim it safely.",
+    faq: [
+      ["Why does Disk City ask me to choose a folder?", "Mac App Store apps run in the App Sandbox, so macOS lets Disk City read only folders you pick. When you click a disk or folder card, the system folder panel opens at that location; click Scan to allow it. Disk City remembers your choice, so the same folder, or anything inside it, scans without asking again."],
+      ["Some folders couldn't be read. What do I do?", "macOS hides some folders, such as Mail, Messages, and other apps' data, until you grant Full Disk Access. Click the notice in the Disk City inspector, or open System Settings → Privacy & Security → Full Disk Access, turn on Disk City, then scan again."],
+      ["Why is the total different from Storage in System Settings?", "Disk City adds up the space files actually occupy on disk, the same way Finder's “on disk” size does. System Settings also counts purgeable space, local snapshots, and the sealed system volume, which no app can list file by file, so the totals can differ by a few percent."],
+      ["Is it safe to remove what Reclaim suggests?", "Reclaim lists space that is usually safe to recover: Xcode DerivedData, simulator devices, node_modules, package caches, app caches, installers, and the Trash. Caches and build data are rebuilt when needed. iPhone backups, Docker disks, and Xcode archives are not rebuilt, so only remove those if you no longer need them. Disk City always asks first and moves items to the Trash, where you can restore them."],
+      ["How do I move around the city?", "Drag to orbit, scroll to zoom, and double-click a block to dive into that folder. Press Esc to go back up, F to switch between the 3D city and the flat view, and / to search."],
+      ["Which Macs are supported?", "Disk City runs on macOS 13 Ventura or later, on Apple silicon and Intel Macs."],
+      ["How can I contact support?", "Use the form below or email yalavuz@gmail.com with the subject “Disk City support.” Include your macOS version, your Mac model, and what happened. A screenshot helps."],
+    ],
+  },
   tavla: {
     name: "Tavla", emoji: "🎲", privacy: "tavla-en.html",
     privacySummary: "No account, ads, analytics, or tracking. Game Center handles online play, Apple handles purchases, and your chip ledger syncs through your own iCloud.",
